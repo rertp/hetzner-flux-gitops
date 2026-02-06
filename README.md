@@ -6,6 +6,8 @@ FluxCD-managed Kubernetes infrastructure for Hetzner Cloud.
 > This repository is a **complementary** GitOps repo for the Pulumi-managed cluster created using [muhammadnawzad/talos-hetzner-cluster](https://github.com/muhammadnawzad/talos-hetzner-cluster).
 > Both projects are designed to work together, as there are specific assumptions made in this repository based on the Pulumi cluster configuration. While this repo can be used independently with modifications, exercise caution when doing so.
 
+---
+
 > [!WARNING]
 > Please review all configurations thoroughly. This is one of my very first DevOps projects, and I am a hobbyist, not an expert. Everything here should be taken with a grain of salt and verified for your specific use case.
 
