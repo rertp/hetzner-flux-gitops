@@ -1,0 +1,46 @@
+# Flux CD (auto-generated during bootstrap)
+clusters/*/flux-system/*.tmp.yaml
+
+# Kustomize
+kustomization.yaml~
+*.orig
+*.rej
+*.bak
+
+# Helm
+charts/**/charts/
+charts/**/Chart.lock
+*.tgz
+
+# Secrets & sensitive material (NEVER COMMIT)
+*.key
+*.pem
+*.crt
+*.pfx
+*.enc.yaml
+*.sealed.yaml
+pub-sealed-secrets.pem
+private.key
+
+# SOPS
+.sops.yaml
+*.sops.yaml
+
+# Environment & config
+.env
+.env.*
+!.env.example
+config/
+*.kubeconfig
+
+# Local dev / tooling
+tmp/
+tmp/**
+.cache/
+.idea/
+.vscode/
+*.log
+
+# OS / Editor noise
+.DS_Store
+Thumbs.db
